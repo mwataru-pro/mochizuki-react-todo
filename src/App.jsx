@@ -2,8 +2,22 @@ import {useState} from 'react';
 
 export const App = () => {
   const [text, setText] = useState(String);
-
   const [todos, setTodos] = useState(Array);
+  const [filter, setFilter] = useState('all');
+  const filteredTodos = todos.filter((todo) => {
+    switch (filter) {
+      case 'all':
+        return !todo.removed;
+      case 'checked':
+        return todo.checked && !todo.removed;
+      case 'unchecked':
+        return !todo.checked && !todo.removed;
+      case 'removed':
+        return todo.removed;
+      default:
+        return todo;
+    }
+  });
 
   const handleOnSubmit = () => {
     if (!text) return;
@@ -64,6 +78,12 @@ export const App = () => {
 
   return (
     <div>
+      <select defaultValue="all" onChange={(e) => setFilter(e.target.value)}>
+        <option value="all">すべてのタスク</option>
+        <option value="checked">完了したタスク</option>
+        <option value="unchecked">現在のタスク</option>
+        <option value="removed">ごみ箱</option>
+      </select>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -72,13 +92,14 @@ export const App = () => {
       >
         <input
           type="text"
+          disabled={filter === 'checked' || filter === 'removed'}
           value={text}
           onChange={(e) => handleOnChange(e)}
         />
         <input type="submit" value="追加" onSubmit={handleOnSubmit} />
       </form>
       <ul>
-        {todos.map((todo) => {
+        {filteredTodos.map((todo) => {
           return (
             <li key={todo.id}>
               <input
