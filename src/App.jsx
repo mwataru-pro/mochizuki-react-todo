@@ -11,6 +11,7 @@ export const App = () => {
     const newTodo = {
       value: text,
       id: new Date().getTime(),
+      checked: false
     };
 
     setTodos([newTodo, ...todos]);
@@ -31,8 +32,19 @@ export const App = () => {
       return todo;
     });
 
-    console.log('=== Original todos ===');
-    todos.map((todo) => console.log(`id: ${todo.id}, value: ${todo.value}`));
+    setTodos(newTodos);
+  }
+
+  const handleOnCheck = (id = number, checked = boolean) => {
+    const deepCopy = todos.map((todo) => ({...todo }));
+
+    const newTodos = deepCopy.map((todo) => {
+      if (todo.id === id) {
+        todo.checked = !checked;
+      }
+      return todo;
+    });
+
     setTodos(newTodos);
   }
 
@@ -56,7 +68,13 @@ export const App = () => {
           return (
             <li key={todo.id}>
               <input
+                type="checkbox"
+                checked={todo.checked}
+                onChange={() => handleOnCheck(todo.id, todo.checked)}
+              />
+              <input
                 type="text"
+                disabled = {todo.checked}
                 value={todo.value}
                 onChange={(e) => handleOnEdit(todo.id, e.target.value)}
               />
