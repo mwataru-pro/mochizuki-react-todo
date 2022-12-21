@@ -10,6 +10,7 @@ export const App = () => {
 
     const newTodo = {
       value: text,
+      id: new Date().getTime(),
     };
 
     setTodos([newTodo, ...todos]);
@@ -37,7 +38,7 @@ export const App = () => {
       </form>
       <ul>
         {todos.map((todo) => {
-          return <li>{todo.value}</li>;
+          return <li key={todo.id}>{todo.value}</li>;
         })}
       </ul>
     </div>
