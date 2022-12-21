@@ -22,12 +22,17 @@ export const App = () => {
   }
 
   const handleOnEdit = (id = Number, value = String) => {
-    const newTodos = todos.map((todo) => {
+    const deepCopy = todos.map((todo) => ({...todo }));
+
+    const newTodos = deepCopy.map((todo) => {
       if (todo.id === id) {
         todo.value = value;
       }
       return todo;
     });
+
+    console.log('=== Original todos ===');
+    todos.map((todo) => console.log(`id: ${todo.id}, value: ${todo.value}`));
     setTodos(newTodos);
   }
 
