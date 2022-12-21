@@ -35,6 +35,11 @@ export const App = () => {
         />
         <input type="submit" value="追加" onSubmit={handleOnSubmit} />
       </form>
+      <ul>
+        {todos.map((todo) => {
+          return <li>{todo.value}</li>;
+        })}
+      </ul>
     </div>
   );
 };
