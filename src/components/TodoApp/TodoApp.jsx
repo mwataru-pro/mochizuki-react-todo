@@ -1,8 +1,17 @@
+import React from 'react';
 import { useState } from 'react';
+import { useTodoCRUD } from "../../hooks/useTodoCRUD";
 
 export const TodoApp = () => {
   const [text, setText] = useState(String);
-  const [todos, setTodos] = useState(Array);
+  const {
+    todos,
+    handleOnSubmit,
+    handleOnEdit,
+    handleOnCheck,
+    handelOnRemove,
+    handleOnEmpty
+  } = useTodoCRUD();
   const [filter, setFilter] = useState('all');
   const filteredTodos = todos.filter((todo) => {
     switch (filter) {
@@ -19,67 +28,9 @@ export const TodoApp = () => {
     }
   });
 
-  const handleOnSubmit = () => {
-    if (!text) return;
-
-    const newTodo = {
-      value: text,
-      id: new Date().getTime(),
-      checked: false,
-      removed: false
-    };
-
-    setTodos([newTodo, ...todos]);
-    setText('');
-  };
-
   const handleOnChange = (e) => {
     setText(e.target.value)
   }
-
-  const handleOnEdit = (id = Number, value = String) => {
-    const deepCopy = todos.map((todo) => ({...todo }));
-
-    const newTodos = deepCopy.map((todo) => {
-      if (todo.id === id) {
-        todo.value = value;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  }
-
-  const handleOnCheck = (id = number, checked = boolean) => {
-    const deepCopy = todos.map((todo) => ({...todo }));
-
-    const newTodos = deepCopy.map((todo) => {
-      if (todo.id === id) {
-        todo.checked = !checked;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  }
-
-  const handelOnRemove = (id = number, removed = boolean) => {
-    const deepCopy = todos.map((todo) => ({...todo }));
-
-    const newTodos = deepCopy.map((todo) => {
-      if (todo.id === id) {
-        todo.removed = !removed;
-      }
-      return todo;
-    });
-
-    setTodos(newTodos);
-  }
-
-  const handleOnEmpty = () => {
-    const newTodos = todos.filter((todo) => !todo.removed);
-    setTodos(newTodos);
-  };
 
   return (
     <div>
@@ -101,7 +52,7 @@ export const TodoApp = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleOnSubmit();
+              handleOnSubmit(text);
             }}
           >
             <input
