@@ -1,9 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
+import { InputFiled  } from '../InputField';
 import { useTodoCRUD } from "../../hooks/useTodoCRUD";
+import { useInput } from "../../hooks/useInput";
 
 export const TodoApp = () => {
-  const [text, setText] = useState(String);
+  const {
+    text,
+    handleOnChange
+  } = useInput();
   const {
     todos,
     handleOnSubmit,
@@ -28,10 +33,6 @@ export const TodoApp = () => {
     }
   });
 
-  const handleOnChange = (e) => {
-    setText(e.target.value)
-  }
-
   return (
     <div>
       <select defaultValue="all" onChange={(e) => setFilter(e.target.value)}>
@@ -49,22 +50,14 @@ export const TodoApp = () => {
         </button>
       ) : (
         filter !== 'checked' && (
-          <form
+          <InputFiled
+            text={text}
+            onChange={handleOnChange}
             onSubmit={(e) => {
               e.preventDefault();
               handleOnSubmit(text);
             }}
-          >
-            <input
-              type="text"
-              value={text}
-              onChange={(e) => handleOnChange(e)}
-            />
-            <input
-              type="submit"
-              value="追加"
-              onSubmit={handleOnSubmit} />
-          </form>
+          />
         )
       )}
       <ul>
