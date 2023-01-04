@@ -14,7 +14,6 @@ export const useTodoCRUD = () => {
     };
 
     setTodos([newTodo, ...todos]);
-    setText('');
   };
 
 

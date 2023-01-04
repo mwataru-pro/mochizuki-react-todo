@@ -7,7 +7,8 @@ import { useInput } from "../../hooks/useInput";
 export const TodoApp = () => {
   const {
     text,
-    handleOnChange
+    handleOnChange,
+    resetText
   } = useInput();
   const {
     todos,
@@ -56,6 +57,7 @@ export const TodoApp = () => {
             onSubmit={(e) => {
               e.preventDefault();
               handleOnSubmit(text);
+              resetText();
             }}
           />
         )
