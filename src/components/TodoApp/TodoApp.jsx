@@ -1,9 +1,10 @@
 import React from 'react';
-import { useState } from 'react';
 import { InputFiled  } from '../InputField';
 import { TodoItem  } from '../TodoItem';
+import { Filter } from '../Filter';
 import { useTodoCRUD } from "../../hooks/useTodoCRUD";
 import { useInput } from "../../hooks/useInput";
+import { useFilter } from "../../hooks/useFilter";
 
 export const TodoApp = () => {
   const {
@@ -11,6 +12,7 @@ export const TodoApp = () => {
     handleOnChange,
     resetText
   } = useInput();
+
   const {
     todos,
     handleOnSubmit,
@@ -19,7 +21,12 @@ export const TodoApp = () => {
     handleOnRemove,
     handleOnEmpty
   } = useTodoCRUD();
-  const [filter, setFilter] = useState('all');
+
+  const {
+    filter,
+    handleOnFilter
+  } = useFilter();
+
   const filteredTodos = todos.filter((todo) => {
     switch (filter) {
       case 'all':
@@ -37,12 +44,9 @@ export const TodoApp = () => {
 
   return (
     <div>
-      <select defaultValue="all" onChange={(e) => setFilter(e.target.value)}>
-        <option value="all">すべてのタスク</option>
-        <option value="checked">完了したタスク</option>
-        <option value="unchecked">現在のタスク</option>
-        <option value="removed">ごみ箱</option>
-      </select>
+      <Filter
+        onChange={handleOnFilter}
+      />
       {filter === 'removed' ? (
         <button
         disabled={todos.filter((todo) => todo.removed).length === 0}
