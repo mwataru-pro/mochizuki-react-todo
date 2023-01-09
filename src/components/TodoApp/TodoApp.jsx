@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { InputFiled  } from '../InputField';
+import { TodoItem  } from '../TodoItem';
 import { useTodoCRUD } from "../../hooks/useTodoCRUD";
 import { useInput } from "../../hooks/useInput";
 
@@ -15,7 +16,7 @@ export const TodoApp = () => {
     handleOnSubmit,
     handleOnEdit,
     handleOnCheck,
-    handelOnRemove,
+    handleOnRemove,
     handleOnEmpty
   } = useTodoCRUD();
   const [filter, setFilter] = useState('all');
@@ -66,21 +67,12 @@ export const TodoApp = () => {
         {filteredTodos.map((todo) => {
           return (
             <li key={todo.id}>
-              <input
-                type="checkbox"
-                disabled = {todo.removed}
-                checked={todo.checked}
-                onChange={() => handleOnCheck(todo.id, todo.checked)}
+              <TodoItem
+                todo={todo}
+                handleOnCheck={() => handleOnCheck(todo.id, todo.checked)}
+                handleOnEdit={(e) => handleOnEdit(todo.id, e.target.value)}
+                handleOnRemove={() => handleOnRemove(todo.id, todo.removed)}
               />
-              <input
-                type="text"
-                disabled = {todo.checked || todo.removed}
-                value={todo.value}
-                onChange={(e) => handleOnEdit(todo.id, e.target.value)}
-              />
-              <button onClick={() => handelOnRemove(todo.id, todo.removed)}>
-                {todo.removed ? '復元' : '削除'}
-              </button>
             </li>
           );
         })}

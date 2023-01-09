@@ -43,7 +43,7 @@ export const useTodoCRUD = () => {
     setTodos(newTodos);
   }
 
-  const handelOnRemove = (id = number, removed = boolean) => {
+  const handleOnRemove = (id = number, removed = boolean) => {
     const deepCopy = todos.map((todo) => ({...todo }));
 
     const newTodos = deepCopy.map((todo) => {
@@ -66,7 +66,7 @@ export const useTodoCRUD = () => {
     handleOnSubmit,
     handleOnEdit,
     handleOnCheck,
-    handelOnRemove,
+    handleOnRemove,
     handleOnEmpty
   };
 }
