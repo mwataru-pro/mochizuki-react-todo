@@ -4,13 +4,13 @@ export const TodoItem = ({todo, handleOnCheck, handleOnEdit, handleOnRemove}) =>
       <input
         type="checkbox"
         disabled = {todo.removed}
-        checked={todo.checked}
+        checked={todo.completed}
         onChange={handleOnCheck}
       />
       <input
         type="text"
         disabled = {todo.checked || todo.removed}
-        value={todo.value}
+        value={todo.title}
         onChange={handleOnEdit}
       />
       <button onClick={handleOnRemove}>

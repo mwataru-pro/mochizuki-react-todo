@@ -1,7 +1,16 @@
-import { useState } from "react";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { API_URL } from "../config";
 
 export const useTodoCRUD = () => {
   const [todos, setTodos] = useState(Array);
+
+  useEffect(() => {
+    axios.get(API_URL)
+    .then((result)=> {
+      setTodos(result.data);
+    });
+  }, []);
 
   const handleOnSubmit = (text) => {
     if (!text) return;
