@@ -6,7 +6,7 @@ export const useTodoCRUD = () => {
   const [todos, setTodos] = useState(Array);
 
   useEffect(() => {
-    axios.get(API_URL)
+    axios.get(`${API_URL}/todos`)
     .then((result)=> {
       setTodos(result.data);
     })
@@ -26,9 +26,10 @@ export const useTodoCRUD = () => {
   };
 
   const createTodo = (todo) => {
-    axios.post(`${API_URL}`, {
+    axios.post(`${API_URL}/todos`, {
       title: todo.title,
-      completed: todo.completed
+      completed: todo.completed,
+      removed: todo.removed
     })
     .then(response => {
       setTodos([...todos, response.data])
@@ -65,16 +66,23 @@ export const useTodoCRUD = () => {
     setTodos(newTodos);
   }
 
-  const handleOnRemove = (id = number) => {
-    const deepCopy = todos.map((todo) => ({...todo }));
-
-    deleteTodo(id);
+  const handleOnDiscard = (todo) => {
+    discardTodo(todo);
   }
 
-  const deleteTodo = (id) => {
-    axios.delete(`${API_URL}/${id}`)
+  const discardTodo = (todo) => {
+    axios.patch(`${API_URL}/todos/${todo.id}`, {
+      removed: true
+    })
     .then(response => {
-      setTodos(todos.filter(todo => todo.id !== id))
+      let updateTodos = todos.map(todo => {
+        if(todo.id === response.data.id) {
+          return response.data;
+        } else {
+          return todo;
+        }
+      })
+      setTodos(updateTodos)
     })
     .catch(error => console.log(error))
   }
@@ -89,7 +97,7 @@ export const useTodoCRUD = () => {
     handleOnSubmit,
     handleOnEdit,
     handleOnCheck,
-    handleOnRemove,
+    handleOnDiscard,
     handleOnEmpty
   };
 }

@@ -18,7 +18,7 @@ export const TodoApp = () => {
     handleOnSubmit,
     handleOnEdit,
     handleOnCheck,
-    handleOnRemove,
+    handleOnDiscard,
     handleOnEmpty
   } = useTodoCRUD();
 
@@ -30,13 +30,13 @@ export const TodoApp = () => {
   const filteredTodos = todos.filter((todo) => {
     switch (filter) {
       case 'all':
-        return !todo.removed;
+        return !todo?.completed && !todo?.removed;
       case 'checked':
-        return todo.completed && !todo.removed;
+        return todo?.completed;
       case 'unchecked':
-        return !todo.completed && !todo.removed;
+        return !todo?.completed;
       case 'removed':
-        return todo.removed;
+        return todo?.removed;
       default:
         return todo;
     }
@@ -75,7 +75,7 @@ export const TodoApp = () => {
                 todo={todo}
                 handleOnCheck={() => handleOnCheck(todo.id, todo.completed)}
                 handleOnEdit={(e) => handleOnEdit(todo.id, e.target.title)}
-                handleOnRemove={() => handleOnRemove(todo.id, todo.removed)}
+                handleOnDiscard={() => handleOnDiscard(todo)}
               />
             </li>
           );

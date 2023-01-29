@@ -1,4 +1,4 @@
-export const TodoItem = ({todo, handleOnCheck, handleOnEdit, handleOnRemove}) => {
+export const TodoItem = ({todo, handleOnCheck, handleOnEdit, handleOnDiscard}) => {
   return (
     <div>
       <input
@@ -13,7 +13,7 @@ export const TodoItem = ({todo, handleOnCheck, handleOnEdit, handleOnRemove}) =>
         value={todo.title}
         onChange={handleOnEdit}
       />
-      <button onClick={handleOnRemove}>
+      <button onClick={handleOnDiscard}>
         {todo.removed ? '復元' : '削除'}
       </button>
     </div>
