@@ -32,9 +32,9 @@ export const TodoApp = () => {
       case 'all':
         return !todo.removed;
       case 'checked':
-        return todo.checked && !todo.removed;
+        return todo.completed && !todo.removed;
       case 'unchecked':
-        return !todo.checked && !todo.removed;
+        return !todo.completed && !todo.removed;
       case 'removed':
         return todo.removed;
       default:
@@ -73,8 +73,8 @@ export const TodoApp = () => {
             <li key={todo.id}>
               <TodoItem
                 todo={todo}
-                handleOnCheck={() => handleOnCheck(todo.id, todo.checked)}
-                handleOnEdit={(e) => handleOnEdit(todo.id, e.target.value)}
+                handleOnCheck={() => handleOnCheck(todo.id, todo.completed)}
+                handleOnEdit={(e) => handleOnEdit(todo.id, e.target.title)}
                 handleOnRemove={() => handleOnRemove(todo.id, todo.removed)}
               />
             </li>

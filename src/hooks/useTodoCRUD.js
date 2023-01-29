@@ -16,7 +16,7 @@ export const useTodoCRUD = () => {
     if (!text) return;
 
     const newTodo = {
-      value: text,
+      title: text,
       id: new Date().getTime(),
       checked: false,
       removed: false
@@ -26,12 +26,12 @@ export const useTodoCRUD = () => {
   };
 
 
-  const handleOnEdit = (id = Number, value = String) => {
+  const handleOnEdit = (id = Number, title = String) => {
     const deepCopy = todos.map((todo) => ({...todo }));
 
     const newTodos = deepCopy.map((todo) => {
       if (todo.id === id) {
-        todo.value = value;
+        todo.title = title;
       }
       return todo;
     });
