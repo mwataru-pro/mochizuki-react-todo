@@ -9,7 +9,8 @@ export const useTodoCRUD = () => {
     axios.get(API_URL)
     .then((result)=> {
       setTodos(result.data);
-    });
+    })
+    .catch(error => console.log(error))
   }, []);
 
   const handleOnSubmit = (text) => {
@@ -17,13 +18,25 @@ export const useTodoCRUD = () => {
 
     const newTodo = {
       title: text,
-      id: new Date().getTime(),
-      checked: false,
+      completed: false,
       removed: false
     };
 
-    setTodos([newTodo, ...todos]);
+    createTodo(newTodo);
   };
+
+  const createTodo = (todo) => {
+    axios.post(API_URL, {
+      title: todo.title,
+      completed: todo.completed
+    })
+    .then(response => {
+      setTodos([...todos, response.data])
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
 
 
   const handleOnEdit = (id = Number, title = String) => {
